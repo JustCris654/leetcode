@@ -6,19 +6,20 @@ using namespace std;
 
 class Solution {
 public:
-    int climbStairs(int n) {
-      if (n <= 3) return n;
-      
-      int n1 = 2, n2 = 3, res = 0;
-      
-      for (int i = 3; i < n; i++) {
-	res = n1 + n2;
-	n1 = n2; 
-	n2 = res;
-      }
-      
-      return res;
+  int climbStairs(int n) {
+    if (n <= 3)
+      return n;
+
+    int n1 = 2, n2 = 3, res = 0;
+
+    for (int i = 3; i < n; i++) {
+      res = n1 + n2;
+      n1 = n2;
+      n2 = res;
     }
+
+    return res;
+  }
 };
 
 int main() {

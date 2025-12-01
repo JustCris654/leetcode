@@ -11,8 +11,9 @@ public:
     bool found_chars[26] = {false};
 
     for (const auto &el : s) {
-      if (found_chars[el-'a'] == true) return el;
-      found_chars[el-'a'] = true;
+      if (found_chars[el - 'a'] == true)
+        return el;
+      found_chars[el - 'a'] = true;
     }
 
     return 'a';
