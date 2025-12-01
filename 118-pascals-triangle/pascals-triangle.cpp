@@ -41,23 +41,10 @@ int main() {
   {
     int input = 5;
     const auto output = s.generate(input);
-    for (size_t i = 0; i < output.size(); i++) {
-      for (size_t j = 0; j < output[i].size(); j++) {
-	cout << output[i][j] << " ";
-      }
-      cout << endl;
-    }
     const vector<vector<int>> expected = {
         {1}, {1, 1}, {1, 2, 1}, {1, 3, 3, 1}, {1, 4, 6, 4, 1}};
-    auto output_it = output.begin();
-    auto expected_it = expected.begin();
-    do {
-      assert(equal((*output_it).begin(), (*output_it).end(),
-                   (*expected_it).begin()) &&
-             "Testcase 1");
-
-      output_it++;
-      expected_it++;
-    } while (output_it != output.end());
+    assert((output == expected) && "Testcase 1");
   }
+  
+  return 0;
 }
