@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build 3296-minimum-number-of-seconds-to-make-mountain-height-zero.cpp",
+      "type": "shell",
+      "command": "/usr/bin/clang++",
+      "args": [
+        "-g",
+        "-lstdc++",
+        "-std=c++20",
+        "${workspaceFolder}/3296-minimum-number-of-seconds-to-make-mountain-height-zero/minimum-number-of-seconds-to-make-mountain-height-zero.cpp",
+        "-o",
+        "${workspaceFolder}/3296-minimum-number-of-seconds-to-make-mountain-height-zero/out"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/3296-minimum-number-of-seconds-to-make-mountain-height-zero"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
+
