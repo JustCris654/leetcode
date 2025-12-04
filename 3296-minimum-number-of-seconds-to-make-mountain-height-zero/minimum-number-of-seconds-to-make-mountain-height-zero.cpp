@@ -1,30 +1,20 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
 class Solution {
 private:
-  struct workerState {
-    int timeToProgress;
-    long long actualTimeToProgress;
-    int mFactor;
-    int progress;
-  };
-
-  int heightOfWorkersAtSeconds(vector<workerState> &workerStates,
+  int heightOfWorkersAtSeconds(vector<int> &workerTimes,
                                long long elapsedSeconds) {
     int sum{0};
-    for (auto &el : workerStates) {
-      if (elapsedSeconds >= el.actualTimeToProgress) {
-        el.actualTimeToProgress += el.timeToProgress * el.mFactor++;
-        el.progress++;
-      }
-
-      sum += el.progress;
+    for (const auto &el: workerTimes) {
+      float wh = (sqrt(8 * elapsedSeconds / el + 1) - 1) / 2;
+      sum += (int)floor(wh);
     }
-
+    
     return sum;
   }
 
@@ -36,24 +26,10 @@ public:
       return m*(m+1)/2*t;
     }
 
-
-    vector<workerState> workerStates(workerTimes.size());
-    for (size_t i = 0; i < workerTimes.size(); i++) {
-      const auto &el = workerTimes[i];
-      workerStates[i] = {
-          .timeToProgress = el,
-          .actualTimeToProgress = el,
-          .mFactor = 2,
-          .progress = 0,
-      };
-    }
-
     long long seconds{0};
     while (true) {
       seconds++;
-      // check worker progress for each worker and sum it up
-      // if workers progress summed is mountainHeight return seconds
-      int heightAtSeconds = heightOfWorkersAtSeconds(workerStates, seconds);
+      int heightAtSeconds = heightOfWorkersAtSeconds(workerTimes, seconds);
       if (heightAtSeconds >= mountainHeight)
         return seconds;
     }
@@ -66,14 +42,14 @@ int main() {
   {
     int mountainheight = 100000;
     vector<int> workertimes{1};
-    int res = s.minNumberOfseconds(mountainheight, workertimes);
-    assert(res == 3 && "testcase 1");
+    long long res = s.minNumberOfSeconds(mountainheight, workertimes);
+    assert(res == 5000050000 && "testcase 1");
   }
 
   {
     int mountainheight = 4;
     vector<int> workertimes{2, 1, 1};
-    int res = s.minNumberOfseconds(mountainheight, workertimes);
+    long long res = s.minNumberOfSeconds(mountainheight, workertimes);
     assert(res == 3 && "testcase 1");
   }
 
