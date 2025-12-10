@@ -1,38 +1,46 @@
 #include <cassert>
+#include <cmath>
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 using namespace std;
 
 class Solution {
 private:
-  int heightOfWorkersAtSeconds(vector<int> &workerTimes,
-                               long long elapsedSeconds) {
-    int sum{0};
-    for (const auto &el: workerTimes) {
-      float wh = (sqrt(8 * elapsedSeconds / el + 1) - 1) / 2;
-      sum += (int)floor(wh);
+  int hs(vector<int> &workerTimes, long long elapsedSeconds) {
+    long long sum = 0;
+    for (const auto &el : workerTimes) {
+      long long val = 1.0 + 8.0 * elapsedSeconds / el;
+      long long wh = (sqrt(val) - 1) / 2;
+      sum += wh;
     }
-    
+
     return sum;
   }
 
 public:
   long long minNumberOfSeconds(int mountainHeight, vector<int> &workerTimes) {
-    if (workerTimes.size() == 1) {
-      int t = workerTimes[0]; 
-      long long m = mountainHeight;
-      return m*(m+1)/2*t;
+    long long left = 0;
+
+    int min_worker = workerTimes[0];
+    for (int t : workerTimes) min_worker = min(min_worker, t); // calcolo il worker piu' veloce
+    
+    long long right = (long long)mountainHeight * (mountainHeight + 1) / 2 * min_worker; // worst case (il worker piu' veloce fa tutto il lavoro da solo)
+    long long ans = right;
+    
+    // binary search iterativa
+    while (left <= right) {
+      long long mid = left + (right - left) / 2;
+      
+      if (hs(workerTimes, mid) >= mountainHeight) {
+	ans = mid; 
+	right = mid - 1;
+      } else {
+	left = mid + 1;
+      }
     }
 
-    long long seconds{0};
-    while (true) {
-      seconds++;
-      int heightAtSeconds = heightOfWorkersAtSeconds(workerTimes, seconds);
-      if (heightAtSeconds >= mountainHeight)
-        return seconds;
-    }
+    return ans;
   }
 };
 
@@ -43,6 +51,7 @@ int main() {
     int mountainheight = 100000;
     vector<int> workertimes{1};
     long long res = s.minNumberOfSeconds(mountainheight, workertimes);
+    cout << res << endl;
     assert(res == 5000050000 && "testcase 1");
   }
 
