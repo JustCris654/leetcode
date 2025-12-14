@@ -32,9 +32,9 @@ public:
 
 private:
   void print_grid(vector<vector<int>> &g) {
-    for (const auto &row: g) {
-      for (const auto &el: row) {
-	print("{} ", el);
+    for (const auto &row : g) {
+      for (const auto &el : row) {
+        print("{} ", el);
       }
       println();
     }
@@ -45,7 +45,6 @@ private:
                  bool &is_island, bool &sub_island) {
     if (coords.first >= grid.size() || coords.second >= grid[0].size())
       return;
-
 
     if (grid[coords.first][coords.second] == 0 ||
         visited[coords.first][coords.second])
