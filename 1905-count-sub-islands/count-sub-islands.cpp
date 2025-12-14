@@ -12,71 +12,61 @@ public:
   int countSubIslands(vector<vector<int>> &grid1, vector<vector<int>> &grid2) {
     vector<vector<bool>> visited(grid1.size(),
                                  vector<bool>(grid1[0].size(), false));
-
-    int island_num = 2;
+    // print_grid(grid1);
+    // println("---------------");
+    // print_grid(grid2);
+    int sub_islands = 0;
     for (size_t i = 0; i < grid1.size(); i++) {
       for (size_t j = 0; j < grid1[0].size(); j++) {
-        bool island_found = false;
-        floodfill(grid2, make_pair(i, j), 1, island_num, visited, island_found);
-        if (island_found) {
-          island_num++;
+        bool is_island = false;
+        bool subisland = true;
+        floodfill(grid2, grid1, make_pair(i, j), visited, is_island, subisland);
+        if (is_island && subisland) {
+          sub_islands += 1;
         }
       }
     }
 
-    set<int> possible_islands;
-    set<int> banned_islands;
-
-    for (size_t i = 0; i < grid1.size(); i++) {
-      for (size_t j = 0; j < grid1[0].size(); j++) {
-        if (grid2[i][j] > 1) {
-          if (banned_islands.contains(grid2[i][j])) {
-          } else {
-
-            possible_islands.insert(grid2[i][j]);
-          }
-
-          if (grid1[i][j] == 0) {
-            possible_islands.erase(grid2[i][j]);
-            banned_islands.insert(grid2[i][j]);
-          }
-        }
-      }
-    }
-
-    return possible_islands.size();
+    return sub_islands;
   }
 
 private:
-  void floodfill(vector<vector<int>> &grid, pair<size_t, size_t> coords,
-                 int pre_val, int post_val, vector<vector<bool>> visited,
-                 bool &island_found) {
+  void print_grid(vector<vector<int>> &g) {
+    for (const auto &row: g) {
+      for (const auto &el: row) {
+	print("{} ", el);
+      }
+      println();
+    }
+  }
+
+  void floodfill(vector<vector<int>> &grid, vector<vector<int>> &grid1,
+                 pair<size_t, size_t> coords, vector<vector<bool>> &visited,
+                 bool &is_island, bool &sub_island) {
     if (coords.first >= grid.size() || coords.second >= grid[0].size())
       return;
 
-    if (visited[coords.first][coords.second]) {
+
+    if (grid[coords.first][coords.second] == 0 ||
+        visited[coords.first][coords.second])
       return;
-    }
 
     visited[coords.first][coords.second] = true;
 
-    if (grid[coords.first][coords.second] != pre_val) {
-      visited[coords.first][coords.second] = true;
-      return;
+    is_island = true;
+
+    if (grid1[coords.first][coords.second] == 0) {
+      sub_island = false;
     }
 
-    grid[coords.first][coords.second] = post_val;
-    island_found = true;
-    visited[coords.first][coords.second] = true;
-
-    floodfill(grid, make_pair(coords.first + 1, coords.second), pre_val,
-              post_val, visited, island_found);
-    floodfill(grid, make_pair(coords.first - 1, coords.second), pre_val,
-              post_val, visited, island_found);
-    floodfill(grid, make_pair(coords.first, coords.second + 1), pre_val,
-              post_val, visited, island_found);
-    floodfill(grid, make_pair(coords.first, coords.second - 1), pre_val,
-              post_val, visited, island_found);
+    floodfill(grid, grid1, make_pair(coords.first + 1, coords.second), visited,
+              is_island, sub_island);
+    floodfill(grid, grid1, make_pair(coords.first - 1, coords.second), visited,
+              is_island, sub_island);
+    floodfill(grid, grid1, make_pair(coords.first, coords.second + 1), visited,
+              is_island, sub_island);
+    floodfill(grid, grid1, make_pair(coords.first, coords.second - 1), visited,
+              is_island, sub_island);
   }
 };
 
