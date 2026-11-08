@@ -54,7 +54,7 @@ public:
                 node.u = s;
                 node.p = sP;
                 key = s->val;
-            }
+            }Grande spinta a sviluppi lato otp-nexus
             TreeNode* t;
             if (node.u->left != nullptr && node.u->right == nullptr) {
                 t = node.u->left;
