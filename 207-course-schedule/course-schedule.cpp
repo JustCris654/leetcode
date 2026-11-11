@@ -4,8 +4,6 @@ private:
     vector<int> dt;
     vector<int> ft;
 
-    vector<vector<int>> dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-
     bool cycle(vector<vector<int>>& g, int course) {
         dt[course] = ++time;
 
