@@ -39,13 +39,6 @@ public:
             g[el[0]][el[1]] = 1;
         }
 
-                for (int i = 0; i < numCourses; i++) {
-            for (int j = 0; j < numCourses; j++) {
-                cout << g[i][j] << " ";
-            }
-            cout << endl;
-        }
-
         bool ret = true;
         for (int i = 0; i < numCourses; i++) {
             if (dt[i] == 0 && cycle(g, i)) {
